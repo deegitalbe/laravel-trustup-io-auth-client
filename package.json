@@ -1,8 +1,8 @@
 {
-    "name": "versioning-package-template",
-    "version": "1.0.8",
+    "name": "laravel-trustup-io-auth-client",
+    "version": "0.0.1",
     "main": "index.js",
-    "repository": "git@github.com:henrotaym/versioning-package-template.git",
+    "repository": "git@github.com:deegitalbe/laravel-trustup-io-auth-client.git",
     "author": "Mathieu Henrotay <mathieu.henrotay@gmail.com>",
     "license": "MIT",
     "scripts": {

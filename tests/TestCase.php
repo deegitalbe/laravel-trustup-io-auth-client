@@ -1,9 +1,10 @@
 <?php
-namespace Henrotaym\VersioningPackageTemplate\Tests;
+namespace Deegitalbe\LaravelTrustupIoAuthClient\Tests;
 
-use Henrotaym\VersioningPackageTemplate\Package;
+use Deegitalbe\LaravelTrustupIoAuthClient\Package;
 use Henrotaym\LaravelPackageVersioning\Testing\VersionablePackageTestCase;
-use Henrotaym\VersioningPackageTemplate\Providers\VersioningPackageTemplateServiceProvider;
+use Deegitalbe\LaravelTrustupIoAuthClient\Providers\LaravelTrustupIoAuthClientServiceProvider;
+use Henrotaym\LaravelApiClient\Providers\ClientServiceProvider;
 
 class TestCase extends VersionablePackageTestCase
 {
@@ -15,7 +16,8 @@ class TestCase extends VersionablePackageTestCase
     public function getServiceProviders(): array
     {
         return [
-            VersioningPackageTemplateServiceProvider::class
+            ClientServiceProvider::class,
+            LaravelTrustupIoAuthClientServiceProvider::class,
         ];
     }
 }
