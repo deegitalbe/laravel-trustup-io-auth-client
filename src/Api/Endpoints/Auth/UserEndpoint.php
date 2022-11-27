@@ -51,7 +51,7 @@ class UserEndpoint implements UserEndpointContract
 
         $request->setVerb('GET')
             ->setUrl('users')
-            ->addQuery(['roles' => 
+            ->addQuery(['role' => 
                 $roles->map(fn (Role $role) => $role->value)->all()
             ]);
 
@@ -59,7 +59,7 @@ class UserEndpoint implements UserEndpointContract
 
         if ($response->failed()) return collect();
 
-        $users = $response->response()->get(true)->users;
+        $users = $response->response()->get(true)['users'];
 
         return collect($users)->map(function (array $attributes) {
             /** @var UserContract */
