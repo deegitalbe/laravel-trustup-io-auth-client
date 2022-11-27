@@ -10,6 +10,6 @@ class AuthCredential extends AuthorizedServerCredential
     {
         parent::prepare($request);
 
-        $request->setBaseUrl(env("TRUSTUP_IO_AUTH_URL"). "/api");
+        $request->setBaseUrl(env("TRUSTUP_IO_AUTHENTIFICATION_URL"). "/api");
     }
 }
