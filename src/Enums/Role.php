@@ -4,7 +4,7 @@ namespace Deegitalbe\LaravelTrustupIoAuthClient\Enums;
 enum Role: string
 {
     case NOVA = "Nova";
-    case EMPLOYEE = "Super Admin";
+    case SUPER_ADMIN = "Super Admin";
     case DEVELOPER = "Developer";
     case APPLICATION_DEVELOPER = "Application Developer";
     case APP_SALESMAN = "App Salesman";
