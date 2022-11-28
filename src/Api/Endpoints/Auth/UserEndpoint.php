@@ -75,7 +75,6 @@ class UserEndpoint implements UserEndpointContract
             ->addData(['ids' => $ids->all()]);
 
         return $this->formatResponse($this->client->try($request, "Could not retrieve users by ids."));
-
     }
 
     /**
