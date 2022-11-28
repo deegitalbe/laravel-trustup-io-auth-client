@@ -27,9 +27,9 @@ use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Api\Endpoints\Auth\UserEndpo
 
 $endpoint = app()->make(UserEndpointContract::class);
 $devs = $endpoint->developers();   // Collection<int, UserContract>
+$resources = UserResource::collection($devs) // AnonymousResourceCollection<int, UserResource> (API resource for your responses)
 $devs->first()->getFirstName(); // Mathieu
 $devs->first()->hasRole(Role::TRANSLATOR) // false
-$resources = UserResource::collection($devs) // AnonymousResourceCollection<int, UserResource> (API resource for your responses)
 ```
 
 ### References

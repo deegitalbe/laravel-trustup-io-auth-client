@@ -7,7 +7,12 @@ use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models\UserContract;
 
 class UserResource extends JsonResource
 {
-    public UserContract $resource;
+    /**
+     * Related Resource.
+     * 
+     * @var UserContract
+     */
+    public $resource;
 
     /**
      * Transform the resource into an array.
