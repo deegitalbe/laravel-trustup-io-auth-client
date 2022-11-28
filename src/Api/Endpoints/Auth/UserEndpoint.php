@@ -8,6 +8,7 @@ use Henrotaym\LaravelApiClient\Contracts\RequestContract;
 use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models\UserContract;
 use Deegitalbe\LaravelTrustupIoAuthClient\Api\Credentials\Auth\AuthCredential;
 use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Api\Endpoints\Auth\UserEndpointContract;
+use Illuminate\Support\Facades\Log;
 
 class UserEndpoint implements UserEndpointContract
 {
@@ -57,7 +58,10 @@ class UserEndpoint implements UserEndpointContract
 
         $response = $this->client->try($request, "Could not retrieve users by roles.");
 
-        if ($response->failed()) return collect();
+        if ($response->failed()):
+            report($response->error());
+            return collect();
+        endif;
 
         $users = $response->response()->get(true)['users'];
 
