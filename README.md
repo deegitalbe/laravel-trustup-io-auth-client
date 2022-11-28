@@ -20,6 +20,7 @@ TRUSTUP_SERVER_AUTHORIZATION=
 ```php
 <?php
 use Deegitalbe\LaravelTrustupIoAuthClient\Enums\Role;
+use Deegitalbe\LaravelTrustupIoAuthClient\Resources\UserResource;
 use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models\UserContract;
 use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Api\Endpoints\Auth\UserEndpointContract;
 
@@ -27,6 +28,7 @@ $endpoint = app()->make(UserEndpointContract::class);
 $devs = $endpoint->developers();   // Collection<int, UserContract>
 $devs->first()->getFirstName(); // Mathieu
 $devs->first()->hasRole(Role::TRANSLATOR) // false
+$resources = UserResource::collection($devs) // UserResource (API resource for your responses)
 ```
 
 ### References
