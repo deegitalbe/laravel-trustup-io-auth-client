@@ -8,7 +8,7 @@ use Henrotaym\LaravelApiClient\Contracts\RequestContract;
 use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models\UserContract;
 use Deegitalbe\LaravelTrustupIoAuthClient\Api\Credentials\Auth\AuthCredential;
 use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Api\Endpoints\Auth\UserEndpointContract;
-use Illuminate\Support\Facades\Log;
+use Henrotaym\LaravelApiClient\Contracts\TryResponseContract;
 
 class UserEndpoint implements UserEndpointContract
 {
@@ -26,7 +26,7 @@ class UserEndpoint implements UserEndpointContract
      */
     public function employees(): Collection
     {
-        return $this->users(collect(Role::EMPLOYEE));
+        return $this->byRoles(collect(Role::EMPLOYEE));
     }
 
     /**
@@ -36,7 +36,7 @@ class UserEndpoint implements UserEndpointContract
      */ 
     public function developers(): Collection
     {
-        return $this->users(collect(Role::DEVELOPER));
+        return $this->byRoles(collect(Role::DEVELOPER));
     }
 
     /**
@@ -45,7 +45,7 @@ class UserEndpoint implements UserEndpointContract
      * @param Collection<int, Role>
      * @return Collection<int, UserContract>
      */
-    public function users(Collection $roles): Collection
+    public function byRoles(Collection $roles): Collection
     {
         /** @var RequestContract */
         $request = app()->make(RequestContract::class);
@@ -56,8 +56,36 @@ class UserEndpoint implements UserEndpointContract
                 $roles->map(fn (Role $role) => $role->value)->all()
             ]);
 
-        $response = $this->client->try($request, "Could not retrieve users by roles.");
+        return $this->formatResponse($this->client->try($request, "Could not retrieve users by roles."));
+    }
 
+    /**
+     * Getting trustup users matching given ids.
+     * 
+     * @param Collection<int, Role>
+     * @return Collection<int, int>
+     */
+    public function byIds(Collection $ids): Collection
+    {
+        /** @var RequestContract */
+        $request = app()->make(RequestContract::class);
+
+        $request->setVerb('GET')
+            ->setUrl('users/by-ids')
+            ->addQuery(['ids' => $ids->all()]);
+
+        return $this->formatResponse($this->client->try($request, "Could not retrieve users by ids."));
+
+    }
+
+    /**
+     * Formating given response.
+     * 
+     * @param TryResponseContract $response
+     * @return Collection<int, UserContract>
+     */
+    protected function formatResponse(TryResponseContract $response): Collection
+    {
         if ($response->failed()):
             report($response->error());
             return collect();

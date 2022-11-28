@@ -27,5 +27,13 @@ interface UserEndpointContract
      * @param Collection<int, Role>
      * @return Collection<int, UserContract>
      */
-    public function users(Collection $roles): Collection;
+    public function byRoles(Collection $roles): Collection;
+
+    /**
+     * Getting trustup users matching given ids.
+     * 
+     * @param Collection<int, Role>
+     * @return Collection<int, int>
+     */
+    public function byIds(Collection $ids): Collection;
 }
