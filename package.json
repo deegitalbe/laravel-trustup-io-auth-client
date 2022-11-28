@@ -1,6 +1,6 @@
 {
     "name": "laravel-trustup-io-auth-client",
-    "version": "0.0.8",
+    "version": "0.0.9",
     "main": "index.js",
     "repository": "git@github.com:deegitalbe/laravel-trustup-io-auth-client.git",
     "author": "Mathieu Henrotay <mathieu.henrotay@gmail.com>",
