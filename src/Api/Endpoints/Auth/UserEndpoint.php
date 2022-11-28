@@ -70,9 +70,9 @@ class UserEndpoint implements UserEndpointContract
         /** @var RequestContract */
         $request = app()->make(RequestContract::class);
 
-        $request->setVerb('GET')
+        $request->setVerb('POST')
             ->setUrl('users/by-ids')
-            ->addQuery(['ids' => $ids->all()]);
+            ->addData(['ids' => $ids->all()]);
 
         return $this->formatResponse($this->client->try($request, "Could not retrieve users by ids."));
 
