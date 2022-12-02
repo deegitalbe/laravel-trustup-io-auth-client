@@ -120,6 +120,8 @@ class UserRelationLoader implements UserRelationLoaderContract
     {
         $ids = $model->{$relation->getIdsProperty()};
 
+        if (!$ids) return collect();
+
         if (!$relation->isMultiple()):
             return collect([$ids]);
         endif;
