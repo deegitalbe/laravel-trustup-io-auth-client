@@ -7,7 +7,7 @@ class UserRelation implements UserRelationContract
 {
     protected string $idsProperty;
     protected string $usersProperty;
-    protected bool $multiple = false;
+    protected bool $multiple = true;
 
     public function getIdsProperty(): string
     {
@@ -15,7 +15,7 @@ class UserRelation implements UserRelationContract
     }
     
     /** @return static */
-    public function setUserIdsProperty(string $property): UserRelationContract
+    public function setIdsProperty(string $property): UserRelationContract
     {
         $this->idsProperty = $property;
 

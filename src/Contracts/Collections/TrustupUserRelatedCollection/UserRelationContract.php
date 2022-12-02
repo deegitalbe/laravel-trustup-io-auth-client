@@ -16,7 +16,7 @@ interface UserRelationContract
      * @param string $property
      * @return static
      */
-    public function setUserIdsProperty(string $property): UserRelationContract;
+    public function setIdsProperty(string $property): UserRelationContract;
     
     /**
      * Getting model property name where users are stored.
