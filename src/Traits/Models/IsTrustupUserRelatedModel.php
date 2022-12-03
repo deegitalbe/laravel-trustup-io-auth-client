@@ -18,7 +18,7 @@ trait IsTrustupUserRelatedModel
      * 
      * @return Collection<int, Model>
      */
-    public function getTrustupUserRelatedModels(): Collection
+    protected function getTrustupUserRelatedModels(): Collection
     {
         return collect([$this]);
     }
@@ -29,9 +29,9 @@ trait IsTrustupUserRelatedModel
      * You can expect UserContract|null for non-multiple relation or Collection<int, UserContract> for multiple relation.
      * 
      * @param UserRelationContract $relation Relation to load
-     * @return mixed
+     * @return ?UserContract|Collection<int, UserContract>
      */
-    public function getTrustupUserRelation(UserRelationContract $relation)
+    protected function getTrustupUserRelation(UserRelationContract $relation): mixed
     {
         [$error, $value] = Helpers::try(fn () => $this->{$relation->getUsersProperty()});
 
@@ -50,9 +50,9 @@ trait IsTrustupUserRelatedModel
      * You can expect UserContract|null for non-multiple relation or Collection<int, UserContract> for multiple relation.
      * 
      * @param string $relation Relation name to get
-     * @return mixed
+     * @return ?UserContract|Collection<int, UserContract>
      */
-    public function getTrustupUsers(string $relationName)
+    public function getTrustupUsers(string $relationName): mixed
     {
         return $this->getTrustupUserRelation($this->{$relationName}());
     }
@@ -73,7 +73,7 @@ trait IsTrustupUserRelatedModel
      * @param array $relationNames Relation names to get
      * @return Collection<int, UserRelationContract>
      */
-    public function getTrustupUserRelationCollection(array $relationNames)
+    public function getTrustupUserRelationCollection(array $relationNames): Collection
     {
         return collect($relationNames)->map(fn (string $relation) => $this->{$relation}());
     }
@@ -87,5 +87,17 @@ trait IsTrustupUserRelatedModel
     public function newCollection(array $models = [])
     {
         return new TrustupUserRelatedCollection($models);
+    }
+
+    /**
+     * Creating an empty trustup user relation.
+     * 
+     * Do not forget to use setters to register your relation correctly.
+     * 
+     * @return UserRelationContract
+     */
+    public function newTrustupUsersRelation(): UserRelationContract
+    {
+        return app()->make(UserRelationContract::class);
     }
 }

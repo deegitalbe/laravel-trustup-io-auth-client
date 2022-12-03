@@ -18,4 +18,16 @@ trait IsTrustupUserRelatedCollection
     {
         return $this;
     }
+
+     /**
+     * Loading given user relations.
+     * @param string $relationNames relation names to load.
+     * @return static
+     */
+    public function loadTrustupUsers(...$relationNames)
+    {
+        if ($this->isEmpty()) return $this;
+
+        return $this->loadTrustupUserRelations($this->first()->getTrustupUserRelationCollection($relationNames));
+    }
 }
