@@ -39,15 +39,37 @@ trait IsTrustupUserRelatedModel
     }
 
     /**
-     * Creating an empty trustup user relation.
+     * Creating a new belongs to trustup user relation.
      * 
-     * Do not forget to use setters to register your relation correctly.
-     * 
+     * @param string $idProperty Model property containing related id.
+     * @param string $userProperty Model property where related user should be stored.
      * @return TrustupUserRelationContract
      */
-    public function newTrustupUsersRelation(): TrustupUserRelationContract
+    public function belongsToTrustupUser(string $idProperty, string $userProperty = null): TrustupUserRelationContract
     {
-        return app()->make(TrustupUserRelationContract::class);
+        $relation = $this->newTrustupUsersRelation()->setIdsProperty($idProperty)
+            ->setMultiple(false);
+            
+        return $userProperty ?
+            $relation->setUsersProperty($userProperty)
+            : $relation;
+    }
+
+     /**
+     * Creating a new has many trustup users relation.
+     * 
+     * @param string $idsProperty Model property containing related ids.
+     * @param string $usersProperty Model property where related users should be stored.
+     * @return TrustupUserRelationContract
+     */
+    public function hasManyTrustupUsers(string $idsProperty, string $usersProperty = null): TrustupUserRelationContract
+    {
+        $relation = $this->newTrustupUsersRelation()->setIdsProperty($idsProperty)
+            ->setMultiple(true);
+            
+        return $usersProperty ?
+            $relation->setUsersProperty($usersProperty)
+            : $relation;
     }
 
     /**
@@ -70,6 +92,18 @@ trait IsTrustupUserRelatedModel
     public function newCollection(array $models = [])
     {
         return app()->make(TrustupUserRelatedCollectionContract::class, ['items' => $models]);
+    }
+
+    /**
+     * Creating an empty trustup user relation.
+     * 
+     * Do not forget to use setters to register your relation correctly.
+     * 
+     * @return TrustupUserRelationContract
+     */
+    protected function newTrustupUsersRelation(): TrustupUserRelationContract
+    {
+        return app()->make(TrustupUserRelationContract::class);
     }
 
     /**
