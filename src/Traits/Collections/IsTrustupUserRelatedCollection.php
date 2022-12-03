@@ -2,50 +2,20 @@
 namespace Deegitalbe\LaravelTrustupIoAuthClient\Traits\Collections;
 
 use Illuminate\Support\Collection;
-use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Collections\TrustupUserRelatedCollection\UserRelationContract;
-use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Collections\TrustupUserRelatedCollection\UserRelationLoaderContract;
+use Illuminate\Database\Eloquent\Model;
+use Deegitalbe\LaravelTrustupIoAuthClient\Traits\IsTrustupUserRelated;
 
 trait IsTrustupUserRelatedCollection
 {
-    /**
-     * Getting a new trustup relation loader.
-     * 
-     * @return UserRelationLoaderContract
-     */
-    protected function newTrustupUserRelationLoader(): UserRelationLoaderContract
-    {
-        return app()->make(UserRelationLoaderContract::class);
-    }
+    use IsTrustupUserRelated;
 
     /**
-     * Loading single user relation.
+     * Getting related models.
      * 
-     * @param UserRelationContract $relation Relation to load
-     * @return static
+     * @return Collection<int, Model>
      */
-    public function loadTrustupUserRelation(UserRelationContract $relation)
+    public function getTrustupUserRelatedModels(): Collection
     {
-        $this->newTrustupUserRelationLoader()
-            ->addRelation($relation)
-            ->setModels($this)
-            ->load();
-
-        return $this;
-    }
-
-    /**
-     * Loading several user relations at once.
-     * 
-     * @param Collection<int, UserRelationContract> $relations Relations to load
-     * @return static
-     */
-    public function loadTrustupUserRelations(Collection $relations)
-    {
-        $this->newTrustupUserRelationLoader()
-            ->addRelations($relations)
-            ->setModels($this)
-            ->load();
-
         return $this;
     }
 }

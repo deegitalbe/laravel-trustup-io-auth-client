@@ -1,6 +1,7 @@
 <?php
 namespace Deegitalbe\LaravelTrustupIoAuthClient\Collections\TrustupUserRelatedCollection;
 
+use Illuminate\Support\Str;
 use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Collections\TrustupUserRelatedCollection\UserRelationContract;
 
 class UserRelation implements UserRelationContract
@@ -11,7 +12,8 @@ class UserRelation implements UserRelationContract
 
     public function getIdsProperty(): string
     {
-        return $this->idsProperty;
+        return $this->idsProperty ??
+            $this->idsProperty = Str::plural(str_replace("_id" . ($this->multiple ? "s": ""), "", $this->idsProperty));
     }
     
     /** @return static */

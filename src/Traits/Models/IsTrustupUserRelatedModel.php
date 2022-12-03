@@ -1,70 +1,65 @@
 <?php
 namespace Deegitalbe\LaravelTrustupIoAuthClient\Traits\Models;
 
-use Illuminate\Support\Str;
-use Henrotaym\LaravelHelpers\Facades\Helpers;
-use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models\UserContract;
-use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Collections\TrustupUserRelatedCollection\UserRelationContract;
-use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Collections\TrustupUserRelatedCollection\UserRelationLoaderContract;
 use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Model;
+use Deegitalbe\LaravelTrustupIoAuthClient\Traits\IsTrustupUserRelated;
+use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Collections\TrustupUserRelatedCollection\UserRelationContract;
+use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models\UserContract;
+use Henrotaym\LaravelHelpers\Facades\Helpers;
 
 trait IsTrustupUserRelatedModel
 {
+    use IsTrustupUserRelated;
+
     /**
-     * Getting trustup user relation.
+     * Getting related models.
      * 
-     * @param string $userIdProperty Model property containing user id.
-     * @param string $userProperty Model property where you would like to set related user.
+     * @return Collection<int, Model>
+     */
+    public function getTrustupUserRelatedModels(): Collection
+    {
+        return collect([$this]);
+    }
+
+    /**
+     * Getting single user relation.
+     * 
+     * @param UserRelationContract $relation Relation to load
      * @return ?UserContract
      */
-    public function getTrustupUserRelation(string $userIdProperty, string $userProperty = null): ?UserContract
+    public function getTrustupUserRelation(UserRelationContract $relation): ?UserContract
     {
-        return $this->getTrustupUsersRelationCommon($userIdProperty, $userProperty, false);
+        return $this->getTrustupUserRelationCommon($relation); 
     }
 
     /**
-     * Getting trustup users relation.
+     * Getting users collection relation.
      * 
-     * @param string $userIdsProperty Model property containing user ids.
-     * @param string $usersProperty Model property where you would like to set related users collection.
+     * @param UserRelationContract $relation Relation to load
      * @return Collection<int, UserContract>
      */
-    public function getTrustupUsersRelation(string $userIdsProperty, string $usersProperty = null): Collection
+    public function getTrustupUsersRelation(UserRelationContract $relation): Collection
     {
-        return $this->getTrustupUsersRelationCommon($userIdsProperty, $usersProperty, true);
+        return $this->getTrustupUserRelationCommon($relation); 
     }
 
     /**
-     * Getting trustup user relation.
+     * Loading user relation.
      * 
-     * @param string $userIdsProperty Property containing user ids.
-     * @param bool $isMultiple Telling if relation is expecting a collection or a single user.
-     * @param string $usersProperty Property where you would like to set users.
+     * @param UserRelationContract $relation Relation to load
      * @return UserContract|null|Collection<int, UserContract>
      */
-    public function getTrustupUsersRelationCommon(string $userIdsProperty, ?string $usersProperty, bool $isMultiple): mixed
+    protected function getTrustupUserRelationCommon(UserRelationContract $relation): mixed
     {
-        $usersProperty = $usersProperty ?:
-            Str::plural(str_replace("_id" . ($isMultiple ? "s": ""), "", $userIdsProperty));
-
-        [$error, $value] = Helpers::try(fn () => $this->{$usersProperty});
+        [$error, $value] = Helpers::try(fn () => $this->{$relation->getUsersProperty()});
 
         if (!$error):
             return $value;
         endif;
 
-        /** @var UserRelationContract */
-        $relation = app()->make(UserRelationContract::class);
-        $relation->setIdsProperty($userIdsProperty)
-            ->setUsersProperty($usersProperty)
-            ->setAsMultiple($isMultiple);
+        $this->loadTrustupUserRelation($relation);
 
-        /** @var UserRelationLoaderContract */
-        $relationLoader = app()->make(UserRelationLoaderContract::class);
-        $relationLoader->addRelation($relation)
-            ->setModels(collect([$this]))
-            ->load();
-
-        return $this->{$usersProperty};
+        return $this->{$relation->getUsersProperty()};
     }
 }
