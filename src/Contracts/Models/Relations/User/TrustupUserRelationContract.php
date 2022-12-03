@@ -1,7 +1,7 @@
 <?php
-namespace Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Collections\TrustupUserRelatedCollection;
+namespace Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models\Relations\User;
 
-interface UserRelationContract
+interface TrustupUserRelationContract
 {
     /**
      * Getting model property name where user ids are stored.
@@ -16,7 +16,7 @@ interface UserRelationContract
      * @param string $property
      * @return static
      */
-    public function setIdsProperty(string $property): UserRelationContract;
+    public function setIdsProperty(string $property): TrustupUserRelationContract;
     
     /**
      * Getting model property name where users are stored.
@@ -31,15 +31,15 @@ interface UserRelationContract
      * @param string $property
      * @return static
      */
-    public function setUsersProperty(string $property): UserRelationContract;
+    public function setUsersProperty(string $property): TrustupUserRelationContract;
 
     /**
-     * Setting if related users are a collection or single.
+     * Setting if related users are a collection or a single model.
      * 
      * @param bool $isMultiple if true => collection, else => single user
      * @return static
      */
-    public function setAsMultiple(bool $isMultiple = true): UserRelationContract;
+    public function setMultiple(bool $isMultiple = true): TrustupUserRelationContract;
 
     /**
      * Telling if related users is a collection or a single user.

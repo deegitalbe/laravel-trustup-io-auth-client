@@ -2,28 +2,28 @@
 namespace Deegitalbe\LaravelTrustupIoAuthClient\Traits;
 
 use Illuminate\Support\Collection;
-use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Collections\TrustupUserRelatedCollection\UserRelationContract;
-use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Collections\TrustupUserRelatedCollection\UserRelationLoaderContract;
+use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models\Relations\User\TrustupUserRelationContract;
+use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models\Relations\User\TrustupUserRelationLoaderContract;
 
 trait IsTrustupUserRelated
 {
     /**
      * Getting a new trustup relation loader.
      * 
-     * @return UserRelationLoaderContract
+     * @return TrustupUserRelationLoaderContract
      */
-    protected function newTrustupUserRelationLoader(): UserRelationLoaderContract
+    protected function newTrustupUserRelationLoader(): TrustupUserRelationLoaderContract
     {
-        return app()->make(UserRelationLoaderContract::class);
+        return app()->make(TrustupUserRelationLoaderContract::class);
     }
 
     /**
      * Loading single user relation.
      * 
-     * @param UserRelationContract $relation Relation to load
+     * @param TrustupUserRelationContract $relation Relation to load
      * @return static
      */
-    public function loadTrustupUserRelation(UserRelationContract $relation)
+    protected function loadTrustupUserRelation(TrustupUserRelationContract $relation)
     {
         $this->newTrustupUserRelationLoader()
             ->addRelation($relation)
@@ -36,10 +36,10 @@ trait IsTrustupUserRelated
     /**
      * Loading several user relations at once.
      * 
-     * @param Collection<int, UserRelationContract> $relations Relations to load
+     * @param Collection<int, TrustupUserRelationContract> $relations Relations to load
      * @return static
      */
-    public function loadTrustupUserRelations(Collection $relations)
+    protected function loadTrustupUserRelations(Collection $relations)
     {
         $this->newTrustupUserRelationLoader()
             ->addRelations($relations)

@@ -14,12 +14,12 @@ trait IsTrustupUserRelatedCollection
      * 
      * @return Collection<int, Model>
      */
-    public function getTrustupUserRelatedModels(): Collection
+    protected function getTrustupUserRelatedModels(): Collection
     {
         return $this;
     }
 
-     /**
+    /**
      * Loading given user relations.
      * @param string $relationNames relation names to load.
      * @return static

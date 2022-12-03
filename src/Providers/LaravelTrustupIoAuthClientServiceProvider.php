@@ -5,12 +5,12 @@ use Deegitalbe\LaravelTrustupIoAuthClient\Package;
 use Deegitalbe\LaravelTrustupIoAuthClient\Models\User;
 use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models\UserContract;
 use Deegitalbe\LaravelTrustupIoAuthClient\Api\Endpoints\Auth\UserEndpoint;
+use Deegitalbe\LaravelTrustupIoAuthClient\Models\Relations\User\TrustupUserRelation;
+use Deegitalbe\LaravelTrustupIoAuthClient\Models\Relations\User\TrustupUserRelationLoader;
 use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Api\Endpoints\Auth\UserEndpointContract;
 use Henrotaym\LaravelPackageVersioning\Providers\Abstracts\VersionablePackageServiceProvider;
-use Deegitalbe\LaravelTrustupIoAuthClient\Collections\TrustupUserRelatedCollection\UserRelation;
-use Deegitalbe\LaravelTrustupIoAuthClient\Collections\TrustupUserRelatedCollection\UserRelationLoader;
-use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Collections\TrustupUserRelatedCollection\UserRelationContract;
-use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Collections\TrustupUserRelatedCollection\UserRelationLoaderContract;
+use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models\Relations\User\TrustupUserRelationContract;
+use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models\Relations\User\TrustupUserRelationLoaderContract;
 
 class LaravelTrustupIoAuthClientServiceProvider extends VersionablePackageServiceProvider
 {
@@ -23,8 +23,8 @@ class LaravelTrustupIoAuthClientServiceProvider extends VersionablePackageServic
     {
         $this->app->bind(UserEndpointContract::class, UserEndpoint::class);
         $this->app->bind(UserContract::class, User::class);
-        $this->app->bind(UserRelationContract::class, UserRelation::class);
-        $this->app->bind(UserRelationLoaderContract::class, UserRelationLoader::class);
+        $this->app->bind(TrustupUserRelationContract::class, TrustupUserRelation::class);
+        $this->app->bind(TrustupUserRelationLoaderContract::class, TrustupUserRelationLoader::class);
     }
 
     protected function addToBoot(): void

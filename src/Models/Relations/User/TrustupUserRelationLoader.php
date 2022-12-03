@@ -1,18 +1,18 @@
 <?php
-namespace Deegitalbe\LaravelTrustupIoAuthClient\Collections\TrustupUserRelatedCollection;
+namespace Deegitalbe\LaravelTrustupIoAuthClient\Models\Relations\User;
 
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models\UserContract;
 use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Api\Endpoints\Auth\UserEndpointContract;
-use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Collections\TrustupUserRelatedCollection\UserRelationContract;
-use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Collections\TrustupUserRelatedCollection\UserRelationLoaderContract;
+use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models\Relations\User\TrustupUserRelationContract;
+use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models\Relations\User\TrustupUserRelationLoaderContract;
 
-class UserRelationLoader implements UserRelationLoaderContract
+class TrustupUserRelationLoader implements TrustupUserRelationLoaderContract
 {
     protected UserEndpointContract $endpoint;
 
-    /** @var Collection<int, UserRelationContract> */
+    /** @var Collection<int, TrustupUserRelationContract> */
     protected Collection $relations;
 
     /** @var Collection<int, Model> */
@@ -42,7 +42,7 @@ class UserRelationLoader implements UserRelationLoaderContract
     }
 
     /** @return static */
-    public function addRelation(UserRelationContract $relation): UserRelationLoaderContract
+    public function addRelation(TrustupUserRelationContract $relation): TrustupUserRelationLoaderContract
     {
         $this->getRelations()->push($relation);
 
@@ -52,10 +52,10 @@ class UserRelationLoader implements UserRelationLoaderContract
     /**
      * Loading several user relations at once.
      * 
-     * @param Collection<int, UserRelationContract> $relations
+     * @param Collection<int, TrustupUserRelationContract> $relations
      * @return static
      */
-    public function addRelations(Collection $relations): UserRelationLoaderContract
+    public function addRelations(Collection $relations): TrustupUserRelationLoaderContract
     {
         $this->getRelations()->push(...$relations);
         
@@ -66,7 +66,7 @@ class UserRelationLoader implements UserRelationLoaderContract
      * @param Collection<int, Model>
      * @return static
      */
-    public function setModels(Collection $models): UserRelationLoaderContract
+    public function setModels(Collection $models): TrustupUserRelationLoaderContract
     {
         $this->models = $models;
 
@@ -74,10 +74,10 @@ class UserRelationLoader implements UserRelationLoaderContract
     }
 
     /** @return static */
-    public function load(): UserRelationLoaderContract
+    public function load(): TrustupUserRelationLoaderContract
     {
         $this->models->each(fn (Model $model) =>
-            $this->getRelations()->each(fn (UserRelationContract $relation) =>
+            $this->getRelations()->each(fn (TrustupUserRelationContract $relation) =>
                 $this->setModelRelation($model, $relation)    
             )
         );
@@ -85,7 +85,7 @@ class UserRelationLoader implements UserRelationLoaderContract
         return $this;
     }
 
-    /** @return Collection<int UserRelationContract> */
+    /** @return Collection<int TrustupUserRelationContract> */
     public function getRelations(): Collection
     {
         return $this->relations ??
@@ -100,7 +100,7 @@ class UserRelationLoader implements UserRelationLoaderContract
         return $this->models;
     }
 
-    protected function setModelRelation(Model $model, UserRelationContract $relation): void
+    protected function setModelRelation(Model $model, TrustupUserRelationContract $relation): void
     {
         $users = $this->getModelRelationIds($model, $relation)
             ->reduce(fn (Collection $users, int $userId) =>
@@ -116,7 +116,7 @@ class UserRelationLoader implements UserRelationLoaderContract
     }
 
     /** @return Collection<int, int> */
-    protected function getModelRelationIds(Model $model, UserRelationContract $relation): Collection
+    protected function getModelRelationIds(Model $model, TrustupUserRelationContract $relation): Collection
     {
         $ids = $model->{$relation->getIdsProperty()};
 
@@ -144,7 +144,7 @@ class UserRelationLoader implements UserRelationLoaderContract
 
         return $this->userIdsMap = $this->models->reduce(fn (Collection $map, Model $model) =>
             tap($map, fn () =>
-                $this->getRelations()->each(fn (UserRelationContract $relation) => 
+                $this->getRelations()->each(fn (TrustupUserRelationContract $relation) => 
                     $this->getModelRelationIds($model, $relation)
                         ->each(fn (int $userId) => $map[$userId] = true)
                 )
