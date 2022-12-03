@@ -3,7 +3,7 @@ namespace Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models;
 
 use Illuminate\Support\Collection;
 use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models\UserContract;
-use Deegitalbe\LaravelTrustupIoAuthClient\Collections\TrustupUserRelatedCollection;
+use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Collections\TrustupUserRelatedCollectionContract;
 use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models\Relations\User\TrustupUserRelationContract;
 
 /**
@@ -49,7 +49,7 @@ interface TrustupUserRelatedModelContract
      * Create a new Eloquent Collection instance.
      *
      * @param  array  $models
-     * @return TrustupUserRelatedCollection
+     * @return TrustupUserRelatedCollectionContract
      */
     public function newCollection(array $models = []);
 }

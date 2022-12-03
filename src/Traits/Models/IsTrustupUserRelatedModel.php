@@ -7,6 +7,7 @@ use Henrotaym\LaravelHelpers\Facades\Helpers;
 use Deegitalbe\LaravelTrustupIoAuthClient\Traits\IsTrustupUserRelated;
 use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models\UserContract;
 use Deegitalbe\LaravelTrustupIoAuthClient\Collections\TrustupUserRelatedCollection;
+use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Collections\TrustupUserRelatedCollectionContract;
 use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models\Relations\User\TrustupUserRelationContract;
 
 trait IsTrustupUserRelatedModel
@@ -63,11 +64,11 @@ trait IsTrustupUserRelatedModel
      * Create a new Eloquent Collection instance.
      *
      * @param  array  $models
-     * @return TrustupUserRelatedCollection
+     * @return TrustupUserRelatedCollectionContract
      */
     public function newCollection(array $models = [])
     {
-        return new TrustupUserRelatedCollection($models);
+        return app()->make(TrustupUserRelatedCollectionContract::class, ['items' => $models]);
     }
 
     /**
