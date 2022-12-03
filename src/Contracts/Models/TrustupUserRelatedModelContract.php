@@ -47,6 +47,14 @@ interface TrustupUserRelatedModelContract
     public function hasManyTrustupUsers(string $idsProperty, string $usersProperty = null): TrustupUserRelationContract;
 
     /**
+     * Telling if trustup users relation is loaded.
+     * 
+     * @param string $relationName Relation name to check.
+     * @return bool
+     */
+    public function trustupUsersRelationLoaded(string $relationName): bool;
+
+    /**
      * Getting trustup relations from given names.
      * 
      * @param array $relationNames Relation names to get

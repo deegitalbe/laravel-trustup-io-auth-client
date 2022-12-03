@@ -26,7 +26,16 @@ class TrustupUserRelation implements TrustupUserRelationContract
     public function getUsersProperty(): string
     {
         return $this->usersProperty ??
-            $this->usersProperty = Str::plural(str_replace("_id" . ($this->multiple ? "s": ""), "", $this->idsProperty));
+            $this->usersProperty = $this->formatUsersProperty();
+    }
+
+    protected function formatUsersProperty(): string
+    {
+        if ($this->isMultiple()):
+            return Str::plural(str_replace("_ids", "", $this->idsProperty));
+        endif;
+
+        return str_replace("_id", "", $this->idsProperty);
     }
 
     /** @return static */

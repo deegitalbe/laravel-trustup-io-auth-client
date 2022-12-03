@@ -49,7 +49,7 @@ trait IsTrustupUserRelatedModel
     {
         $relation = $this->newTrustupUsersRelation()->setIdsProperty($idProperty)
             ->setMultiple(false);
-            
+
         return $userProperty ?
             $relation->setUsersProperty($userProperty)
             : $relation;
@@ -66,10 +66,26 @@ trait IsTrustupUserRelatedModel
     {
         $relation = $this->newTrustupUsersRelation()->setIdsProperty($idsProperty)
             ->setMultiple(true);
-            
+
         return $usersProperty ?
             $relation->setUsersProperty($usersProperty)
             : $relation;
+    }
+
+    /**
+     * Telling if trustup users relation is loaded.
+     * 
+     * @param string $relationName Relation name to check.
+     * @return bool
+     */
+    public function trustupUsersRelationLoaded(string $relationName): bool
+    {
+        /** @var TrustupUserRelationContract */
+        $relation = $this->{$relationName}();
+
+        [$error] = Helpers::try(fn () => $this->{$relation->getUsersProperty()});
+
+        return !$error;
     }
 
     /**

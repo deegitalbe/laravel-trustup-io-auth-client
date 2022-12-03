@@ -5,7 +5,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Deegitalbe\LaravelTrustupIoAuthClient\Enums\Role;
 use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models\TrustupUserContract;
 
-class UserResource extends JsonResource
+class TrustupUserResource extends JsonResource
 {
     /**
      * Related Resource.

@@ -15,25 +15,147 @@ TRUSTUP_IO_AUTHENTIFICATION_URL=
 TRUSTUP_SERVER_AUTHORIZATION=
 ```
 
-### Usage
-
+### Preparing your models (optional)
+If you have relationships with trustup users, your model should look like this
 ```php
 <?php
-use Deegitalbe\LaravelTrustupIoAuthClient\Enums\Role;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Deegitalbe\LaravelTrustupIoAuthClient\Resources\UserResource;
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models\TrustupUserRelatedModelContract;
+use Deegitalbe\LaravelTrustupIoAuthClient\Traits\Models\IsTrustupUserRelatedModel;
+use Illuminate\Support\Collection;
 use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models\TrustupUserContract;
-use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Api\Endpoints\Auth\UserEndpointContract;
+use Illuminate\Database\Eloquent\Casts\AsCollection;
+use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models\Relations\User\TrustupUserRelationContract;
+
+class Post extends Model implements TrustupUserRelatedModelContract
+{
+    use IsTrustupUserRelatedModel;
+
+    /**
+     * Related contributors.
+     * 
+     * @return Collection<int, TrustupUserContract>
+     */
+    public Collection $contributors;
+
+    /**
+     * Related creator.
+     * 
+     * @return ?UserContract
+     */
+    public ?UserContract $creator;
+
+    protected $fillable = [
+        'contributor_ids'
+        'creator_id'
+    ];
+
+    protected $casts =[
+        'contributor_ids' => AsCollection::class,
+    ];
+
+    /**
+     * Defining contributors relation.
+     * 
+     * @return TrustupUserRelationContract
+     */
+    public function trustupContributors(): TrustupUserRelationContract
+    {
+        return $this->hasManyTrustupUsers('contributor_ids');
+    }
+
+    /**
+     * Defining contributors relation.
+     * 
+     * @return TrustupUserRelationContract
+     */
+    public function trustupCreator(): TrustupUserRelationContract
+    {
+        return $this->belongsToTrustupUser('creator_id');
+    }
+
+    /**
+     * Getting related contributors.
+     * 
+     * @return Collection<int, TrustupUserContract>
+     */
+    public function getContributors(): Collection
+    {
+        return $this->getTrustupUsers('trustupContributors');
+    }
+
+    /**
+     * Getting related contributors.
+     * 
+     * @return ?UserContract
+     */
+    public function getCreator(): ?UserContract
+    {
+        return $this->getTrustupUsers('trustupCreator');
+    }
+}
+```
+
+### Exposing your models by creating a resource(optional)
+If you wanna expose your model, here is an example resource based on previous section model
+```php
+<?php
+
+namespace App\Http\Resources;
+
+use App\Models\Post;
+use Deegitalbe\LaravelTrustupIoAuthClient\Resources\TrustupUserResource;
+use Illuminate\Http\Resources\Json\JsonResource;
+
+class PostResource extends TrustupUserRelatedResource
+{
+    /** @var Post */
+    public $resource;
+
+    /**
+     * Transform the resource into an array.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
+     */
+    public function toArray($request)
+    {
+        return [
+            'id' => $this->id,
+            'title' => $this->title,
+            'text' => $this->text,
+            'created_at' => $this->created_at,
+            'contributors' => TrustupUserResource::collection($this->resource->getContributors()),
+            'creator' => $this->whenTrustupUsersLoaded('trustupCreator', fn () => $this->resource->getCreator())
+        ];
+    }
+}
+```
+
+
+## Usage
+
+### Endpoint
+```php
+<?php
+use Illuminate\Support\Collection;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Deegitalbe\LaravelTrustupIoAuthClient\Enums\Role;
+use Deegitalbe\LaravelTrustupIoAuthClient\Resources\TrustupUserResource;
+
 
 $endpoint = app()->make(UserEndpointContract::class);
 $devs = $endpoint->developers();   // Collection<int, TrustupUserContract>
-$resources = UserResource::collection($devs) // AnonymousResourceCollection<int, UserResource> (API resource for your responses)
+$resources = TrustupUserResource::collection($devs) // AnonymousResourceCollection<int, TrustupUserResource> (API resource for your responses)
 $devs->first()->getFirstName(); // Mathieu
 $devs->first()->hasRole(Role::TRANSLATOR) // false
 ```
 
-### References
-#### Endpoint
+## References
+### Endpoint
 
 ```php
 interface UserEndpointContract
@@ -70,7 +192,7 @@ interface UserEndpointContract
 }
 ```
 
-#### Model
+### Trustup user model
 ```php
 interface TrustupUserContract
 {
