@@ -3,7 +3,7 @@ namespace Deegitalbe\LaravelTrustupIoAuthClient\Models\Relations\User;
 
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models\UserContract;
+use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models\TrustupUserContract;
 use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Api\Endpoints\Auth\UserEndpointContract;
 use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models\Relations\User\TrustupUserRelationContract;
 use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models\Relations\User\TrustupUserRelationLoaderContract;
@@ -32,7 +32,7 @@ class TrustupUserRelationLoader implements TrustupUserRelationLoaderContract
      * 
      * Key is user id and value is user.
      * 
-     * @var Collection<int, UserContract>
+     * @var Collection<int, TrustupUserContract>
      */
     protected Collection $usersMap;
 
@@ -161,7 +161,7 @@ class TrustupUserRelationLoader implements TrustupUserRelationLoaderContract
             $this->getUserIdsMap()->keys()
         );
 
-        return $this->usersMap = $users->reduce(fn (Collection $map, UserContract $user) =>
+        return $this->usersMap = $users->reduce(fn (Collection $map, TrustupUserContract $user) =>
             tap($map, fn () =>
                 $map[$user->getId()] = $user
             ),

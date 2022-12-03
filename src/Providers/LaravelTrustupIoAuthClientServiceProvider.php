@@ -2,8 +2,8 @@
 namespace Deegitalbe\LaravelTrustupIoAuthClient\Providers;
 
 use Deegitalbe\LaravelTrustupIoAuthClient\Package;
-use Deegitalbe\LaravelTrustupIoAuthClient\Models\User;
-use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models\UserContract;
+use Deegitalbe\LaravelTrustupIoAuthClient\Models\TrustupUser;
+use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models\TrustupUserContract;
 use Deegitalbe\LaravelTrustupIoAuthClient\Api\Endpoints\Auth\UserEndpoint;
 use Deegitalbe\LaravelTrustupIoAuthClient\Collections\TrustupUserRelatedCollection;
 use Deegitalbe\LaravelTrustupIoAuthClient\Models\Relations\User\TrustupUserRelation;
@@ -24,7 +24,7 @@ class LaravelTrustupIoAuthClientServiceProvider extends VersionablePackageServic
     protected function addToRegister(): void
     {
         $this->app->bind(UserEndpointContract::class, UserEndpoint::class);
-        $this->app->bind(UserContract::class, User::class);
+        $this->app->bind(TrustupUserContract::class, TrustupUser::class);
         $this->app->bind(TrustupUserRelationContract::class, TrustupUserRelation::class);
         $this->app->bind(TrustupUserRelationLoaderContract::class, TrustupUserRelationLoader::class);
         $this->app->bind(TrustupUserRelatedCollectionContract::class, TrustupUserRelatedCollection::class);

@@ -3,9 +3,9 @@ namespace Deegitalbe\LaravelTrustupIoAuthClient\Models;
 
 use Illuminate\Support\Collection;
 use Deegitalbe\LaravelTrustupIoAuthClient\Enums\Role;
-use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models\UserContract;
+use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models\TrustupUserContract;
 
-class User implements UserContract
+class TrustupUser implements TrustupUserContract
 {
     protected int $id;
     protected string $avatar;
@@ -152,7 +152,7 @@ class User implements UserContract
      * @param array<string, mixed> $attributes
      * @return static
      */
-    public function fill(array $attributes): UserContract
+    public function fill(array $attributes): TrustupUserContract
     {
         $this->id = $attributes['id'];
         $this->avatar = $attributes['avatar'];

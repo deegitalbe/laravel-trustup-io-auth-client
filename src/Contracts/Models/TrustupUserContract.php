@@ -4,7 +4,7 @@ namespace Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models;
 use Illuminate\Support\Collection;
 use Deegitalbe\LaravelTrustupIoAuthClient\Enums\Role;
 
-interface UserContract
+interface TrustupUserContract
 {
     /**
      * Getting user id.
@@ -99,5 +99,5 @@ interface UserContract
      * @param array<string, mixed> $attributes
      * @return static
      */
-    public function fill(array $attributes): UserContract; 
+    public function fill(array $attributes): TrustupUserContract; 
 }

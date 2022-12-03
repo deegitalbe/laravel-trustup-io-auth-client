@@ -5,7 +5,7 @@ use Illuminate\Support\Collection;
 use Deegitalbe\LaravelTrustupIoAuthClient\Enums\Role;
 use Henrotaym\LaravelApiClient\Contracts\ClientContract;
 use Henrotaym\LaravelApiClient\Contracts\RequestContract;
-use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models\UserContract;
+use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models\TrustupUserContract;
 use Deegitalbe\LaravelTrustupIoAuthClient\Api\Credentials\Auth\AuthCredential;
 use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Api\Endpoints\Auth\UserEndpointContract;
 use Henrotaym\LaravelApiClient\Contracts\TryResponseContract;
@@ -22,7 +22,7 @@ class UserEndpoint implements UserEndpointContract
     /**
      * Getting trustup employees.
      * 
-     * @return Collection<int, UserContract>
+     * @return Collection<int, TrustupUserContract>
      */
     public function employees(): Collection
     {
@@ -32,7 +32,7 @@ class UserEndpoint implements UserEndpointContract
     /**
      * Getting trustup developers.
      * 
-     * @return Collection<int, UserContract>
+     * @return Collection<int, TrustupUserContract>
      */ 
     public function developers(): Collection
     {
@@ -43,7 +43,7 @@ class UserEndpoint implements UserEndpointContract
      * Getting trustup users matching given roles.
      * 
      * @param Collection<int, Role>
-     * @return Collection<int, UserContract>
+     * @return Collection<int, TrustupUserContract>
      */
     public function byRoles(Collection $roles): Collection
     {
@@ -81,7 +81,7 @@ class UserEndpoint implements UserEndpointContract
      * Formating given response.
      * 
      * @param TryResponseContract $response
-     * @return Collection<int, UserContract>
+     * @return Collection<int, TrustupUserContract>
      */
     protected function formatResponse(TryResponseContract $response): Collection
     {
@@ -93,8 +93,8 @@ class UserEndpoint implements UserEndpointContract
         $users = $response->response()->get(true)['users'];
 
         return collect($users)->map(function (array $attributes) {
-            /** @var UserContract */
-            $user = app()->make(UserContract::class);
+            /** @var TrustupUserContract */
+            $user = app()->make(TrustupUserContract::class);
             
             return $user->fill($attributes);
         });

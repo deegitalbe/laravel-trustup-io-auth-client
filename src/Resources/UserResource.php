@@ -3,14 +3,14 @@ namespace Deegitalbe\LaravelTrustupIoAuthClient\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use Deegitalbe\LaravelTrustupIoAuthClient\Enums\Role;
-use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models\UserContract;
+use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models\TrustupUserContract;
 
 class UserResource extends JsonResource
 {
     /**
      * Related Resource.
      * 
-     * @var UserContract
+     * @var TrustupUserContract
      */
     public $resource;
 

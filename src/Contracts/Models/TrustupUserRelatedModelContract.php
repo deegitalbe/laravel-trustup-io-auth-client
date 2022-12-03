@@ -2,7 +2,7 @@
 namespace Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models;
 
 use Illuminate\Support\Collection;
-use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models\UserContract;
+use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models\TrustupUserContract;
 use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Collections\TrustupUserRelatedCollectionContract;
 use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models\Relations\User\TrustupUserRelationContract;
 
@@ -14,10 +14,10 @@ interface TrustupUserRelatedModelContract
     /**
      * Getting user relation.
      * 
-     * You can expect UserContract|null for non-multiple relation or Collection<int, UserContract> for multiple relation.
+     * You can expect TrustupUserContract|null for non-multiple relation or Collection<int, TrustupUserContract> for multiple relation.
      * 
      * @param string $relation Relation name to get
-     * @return ?UserContract|Collection<int, UserContract>
+     * @return ?TrustupUserContract|Collection<int, TrustupUserContract>
      */
     public function getTrustupUsers(string $relationName): mixed;
 
@@ -26,7 +26,7 @@ interface TrustupUserRelatedModelContract
      * @param string $relationNames relation names to load.
      * @return static
      */
-    public function loadTrustupUsers(...$relationNames);
+    public function loadTrustupUsers(...$relationNames): TrustupUserRelatedModelContract;
 
     /**
      * Creating an empty trustup user relation.

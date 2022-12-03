@@ -22,11 +22,11 @@ TRUSTUP_SERVER_AUTHORIZATION=
 use Deegitalbe\LaravelTrustupIoAuthClient\Enums\Role;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Deegitalbe\LaravelTrustupIoAuthClient\Resources\UserResource;
-use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models\UserContract;
+use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models\TrustupUserContract;
 use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Api\Endpoints\Auth\UserEndpointContract;
 
 $endpoint = app()->make(UserEndpointContract::class);
-$devs = $endpoint->developers();   // Collection<int, UserContract>
+$devs = $endpoint->developers();   // Collection<int, TrustupUserContract>
 $resources = UserResource::collection($devs) // AnonymousResourceCollection<int, UserResource> (API resource for your responses)
 $devs->first()->getFirstName(); // Mathieu
 $devs->first()->hasRole(Role::TRANSLATOR) // false
@@ -41,14 +41,14 @@ interface UserEndpointContract
     /**
      * Getting trustup employees.
      * 
-     * @return Collection<int, UserContract>
+     * @return Collection<int, TrustupUserContract>
      */
     public function employees(): Collection;
 
     /**
      * Getting trustup developers.
      * 
-     * @return Collection<int, UserContract>
+     * @return Collection<int, TrustupUserContract>
      */
     public function developers(): Collection;
 
@@ -56,7 +56,7 @@ interface UserEndpointContract
      * Getting trustup users matching given roles.
      * 
      * @param Collection<int, Role>
-     * @return Collection<int, UserContract>
+     * @return Collection<int, TrustupUserContract>
      */
     public function byRoles(Collection $roles): Collection;
 
@@ -72,7 +72,7 @@ interface UserEndpointContract
 
 #### Model
 ```php
-interface UserContract
+interface TrustupUserContract
 {
     /**
      * Getting user id.
@@ -167,6 +167,6 @@ interface UserContract
      * @param array<string, mixed> $attributes
      * @return static
      */
-    public function fill(array $attributes): UserContract; 
+    public function fill(array $attributes): TrustupUserContract; 
 }
 ```

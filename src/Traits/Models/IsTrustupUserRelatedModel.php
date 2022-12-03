@@ -5,8 +5,9 @@ use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Henrotaym\LaravelHelpers\Facades\Helpers;
 use Deegitalbe\LaravelTrustupIoAuthClient\Traits\IsTrustupUserRelated;
-use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models\UserContract;
+use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models\TrustupUserContract;
 use Deegitalbe\LaravelTrustupIoAuthClient\Collections\TrustupUserRelatedCollection;
+use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models\TrustupUserRelatedModelContract;
 use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Collections\TrustupUserRelatedCollectionContract;
 use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models\Relations\User\TrustupUserRelationContract;
 
@@ -17,10 +18,10 @@ trait IsTrustupUserRelatedModel
     /**
      * Getting user relation.
      * 
-     * You can expect UserContract|null for non-multiple relation or Collection<int, UserContract> for multiple relation.
+     * You can expect TrustupUserContract|null for non-multiple relation or Collection<int, TrustupUserContract> for multiple relation.
      * 
      * @param string $relation Relation name to get
-     * @return ?UserContract|Collection<int, UserContract>
+     * @return ?TrustupUserContract|Collection<int, TrustupUserContract>
      */
     public function getTrustupUsers(string $relationName): mixed
     {
@@ -32,7 +33,7 @@ trait IsTrustupUserRelatedModel
      * @param string $relationNames relation names to load.
      * @return static
      */
-    public function loadTrustupUsers(...$relationNames)
+    public function loadTrustupUsers(...$relationNames): TrustupUserRelatedModelContract
     {
         return $this->loadTrustupUserRelations($this->getTrustupUserRelationCollection($relationNames));
     }
@@ -84,10 +85,10 @@ trait IsTrustupUserRelatedModel
     /**
      * Getting user relation.
      * 
-     * You can expect UserContract|null for non-multiple relation or Collection<int, UserContract> for multiple relation.
+     * You can expect TrustupUserContract|null for non-multiple relation or Collection<int, TrustupUserContract> for multiple relation.
      * 
      * @param TrustupUserRelationContract $relation Relation to load
-     * @return ?UserContract|Collection<int, UserContract>
+     * @return ?TrustupUserContract|Collection<int, TrustupUserContract>
      */
     protected function getTrustupUserRelation(TrustupUserRelationContract $relation): mixed
     {
