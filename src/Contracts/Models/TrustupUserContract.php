@@ -63,6 +63,13 @@ interface TrustupUserContract
     public function getLocale(): string;
 
     /**
+     * Getting user slack id.
+     * 
+     * @return ?string
+     */
+    public function getSlackId(): ?string;
+
+    /**
      * Getting user roles.
      * 
      * @return Collection<int, Role>
@@ -99,5 +106,5 @@ interface TrustupUserContract
      * @param array<string, mixed> $attributes
      * @return static
      */
-    public function fill(array $attributes): TrustupUserContract; 
+    public function fill(array $attributes): TrustupUserContract;
 }

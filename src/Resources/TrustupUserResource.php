@@ -31,6 +31,7 @@ class TrustupUserResource extends JsonResource
             "email" => $this->resource->getEmail(),
             "phone" => $this->resource->getPhoneNumber(),
             "locale" => $this->resource->getLocale(),
+            "slack_id" => $this->resource->getSlackId(),
             "roles" => $this->resource->getRoles()->map(fn (Role $role) => $role->value)->all(),
         ];
     }
