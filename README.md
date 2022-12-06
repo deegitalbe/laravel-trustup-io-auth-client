@@ -22,12 +22,12 @@ If you have relationships with trustup users, your model should look like this
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models\TrustupUserRelatedModelContract;
-use Deegitalbe\LaravelTrustupIoAuthClient\Traits\Models\IsTrustupUserRelatedModel;
 use Illuminate\Support\Collection;
-use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models\TrustupUserContract;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\AsCollection;
+use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models\TrustupUserContract;
+use Deegitalbe\LaravelTrustupIoAuthClient\Traits\Models\IsTrustupUserRelatedModel;
+use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models\TrustupUserRelatedModelContract;
 use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models\Relations\User\TrustupUserRelationContract;
 
 class Post extends Model implements TrustupUserRelatedModelContract
@@ -127,6 +127,22 @@ class PostResource extends TrustupUserRelatedResource
             'contributors' => TrustupUserResource::collection($this->whenTrustupUsersLoaded('trustupContributors')),
             'creator' => new TrustupUserResource($this->whenTrustupUsersLoaded('trustupCreator'))
         ];
+    }
+}
+```
+
+### Eager load collections
+
+Only one request will be performed even if you load multiple relations ⚡⚡⚡⚡
+
+```php
+use Illuminate\Routing\Controller;
+
+class PostController extends Controller
+{
+    public function index() 
+    {
+        return PostResource::collection(Post::all()->loadTrustupUsers('trustupContributors', 'trustupCreator'));
     }
 }
 ```
