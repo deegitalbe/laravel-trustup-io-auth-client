@@ -15,6 +15,7 @@ class TrustupUser implements TrustupUserContract
     protected string $email;
     protected ?string $phone;
     protected string $locale;
+    protected ?string $slack_id;
     protected Collection $roles;
 
     /**
@@ -98,6 +99,26 @@ class TrustupUser implements TrustupUserContract
     }
 
     /**
+     * Getting user slack id.
+     * 
+     * @return ?string
+     */
+    public function getSlackId(): ?string
+    {
+        return $this->slack_id;
+    }
+
+        /**
+     * Telling if having slack id.
+     * 
+     * @return bool
+     */
+    public function hasSlackId(): bool
+    {
+        return !!$this->getSlackId();
+    }
+
+    /**
      * Getting user roles.
      * 
      * @return Collection<int, Role>
@@ -162,6 +183,7 @@ class TrustupUser implements TrustupUserContract
         $this->email = $attributes['email'];
         $this->phone = $attributes['phone'];
         $this->locale = $attributes['locale'];
+        $this->slack_id = $attributes['slack_id'];
         $this->roles = collect($attributes['roles'])->map(fn (string $role) => Role::from($role));
 
         return $this;

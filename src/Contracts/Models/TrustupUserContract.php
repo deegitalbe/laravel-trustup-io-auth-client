@@ -70,6 +70,13 @@ interface TrustupUserContract
     public function getSlackId(): ?string;
 
     /**
+     * Telling if having slack id.
+     * 
+     * @return bool
+     */
+    public function hasSlackId(): bool;
+
+    /**
      * Getting user roles.
      * 
      * @return Collection<int, Role>
