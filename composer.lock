@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f7429d8a5f7b1c1e27024a05414ba54b",
+    "content-hash": "ebdabfa80c57c0a626b3d149f1ca0807",
     "packages": [
         {
             "name": "deegitalbe/laravel-trustup-io-external-model-relations",
-            "version": "v0.0.2-alpha.1",
+            "version": "v0.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/deegitalbe/laravel-trustup-io-external-model-relations.git",
-                "reference": "42a2398c0ce2afe62678f9127605abe9bfd1ef5a"
+                "reference": "a2400e224533c2c04fe3a098fc715ed8fe2fc1c3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/deegitalbe/laravel-trustup-io-external-model-relations/zipball/42a2398c0ce2afe62678f9127605abe9bfd1ef5a",
-                "reference": "42a2398c0ce2afe62678f9127605abe9bfd1ef5a",
+                "url": "https://api.github.com/repos/deegitalbe/laravel-trustup-io-external-model-relations/zipball/a2400e224533c2c04fe3a098fc715ed8fe2fc1c3",
+                "reference": "a2400e224533c2c04fe3a098fc715ed8fe2fc1c3",
                 "shasum": ""
             },
             "require": {
@@ -55,9 +55,9 @@
             "description": "Basic versioned php package.",
             "support": {
                 "issues": "https://github.com/deegitalbe/laravel-trustup-io-external-model-relations/issues",
-                "source": "https://github.com/deegitalbe/laravel-trustup-io-external-model-relations/tree/v0.0.2-alpha.1"
+                "source": "https://github.com/deegitalbe/laravel-trustup-io-external-model-relations/tree/v0.0.2"
             },
-            "time": "2022-12-11T17:51:21+00:00"
+            "time": "2022-12-12T13:39:47+00:00"
         },
         {
             "name": "deegitalbe/server-authorization",
@@ -8313,9 +8313,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "deegitalbe/laravel-trustup-io-external-model-relations": 15
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
