@@ -188,4 +188,9 @@ class TrustupUser implements TrustupUserContract
 
         return $this;
     }
+
+    public function getExternalRelationIdentifier(): string|int
+    {
+        return $this->getId();
+    }
 }

@@ -3,8 +3,9 @@ namespace Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models;
 
 use Illuminate\Support\Collection;
 use Deegitalbe\LaravelTrustupIoAuthClient\Enums\Role;
+use Deegitalbe\LaravelTrustupIoExternalModelRelations\Contracts\Models\ExternalModelContract;
 
-interface TrustupUserContract
+interface TrustupUserContract extends ExternalModelContract
 {
     /**
      * Getting user id.
