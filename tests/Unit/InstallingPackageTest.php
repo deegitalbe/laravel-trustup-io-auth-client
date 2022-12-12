@@ -5,8 +5,6 @@ use Deegitalbe\LaravelTrustupIoAuthClient\Tests\TestCase;
 use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models\TrustupUserContract;
 use Henrotaym\LaravelPackageVersioning\Testing\Traits\InstallPackageTest;
 use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Api\Endpoints\Auth\UserEndpointContract;
-use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models\Relations\User\TrustupUserRelationContract;
-use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models\Relations\User\TrustupUserRelationLoaderContract;
 
 class InstallingPackageTest extends TestCase
 {
@@ -16,8 +14,6 @@ class InstallingPackageTest extends TestCase
     {
         $this->app->make(UserEndpointContract::class);
         $this->app->make(TrustupUserContract::class);
-        $this->app->make(TrustupUserRelationContract::class);
-        $this->app->make(TrustupUserRelationLoaderContract::class);
 
         $this->assertTrue(true);
     }

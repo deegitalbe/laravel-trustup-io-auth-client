@@ -28,41 +28,30 @@ use Illuminate\Database\Eloquent\Casts\AsCollection;
 use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models\TrustupUserContract;
 use Deegitalbe\LaravelTrustupIoAuthClient\Traits\Models\IsTrustupUserRelatedModel;
 use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models\TrustupUserRelatedModelContract;
-use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models\Relations\User\TrustupUserRelationContract;
 
 class Post extends Model implements TrustupUserRelatedModelContract
 {
     use IsTrustupUserRelatedModel;
 
     /**
-     * Related contributors.
+     * Getting external relation names.
      * 
-     * @return Collection<int, TrustupUserContract>
+     * @return array<int, string>
      */
-    public Collection $contributors;
-
-    /**
-     * Related creator.
-     * 
-     * @return ?UserContract
-     */
-    public ?UserContract $creator;
-
-    protected $fillable = [
-        'contributor_ids'
-        'creator_id'
-    ];
-
-    protected $casts =[
-        'contributor_ids' => AsCollection::class,
-    ];
+    public function getExternalRelationNames(): array
+    {
+        return [
+            'contributors',
+            'creator'
+        ]
+    }
 
     /**
      * Defining contributors relation.
      * 
      * @return TrustupUserRelationContract
      */
-    public function trustupContributors(): TrustupUserRelationContract
+    public function contributors(): TrustupUserRelationContract
     {
         return $this->hasManyTrustupUsers('contributor_ids');
     }
@@ -72,7 +61,7 @@ class Post extends Model implements TrustupUserRelatedModelContract
      * 
      * @return TrustupUserRelationContract
      */
-    public function trustupCreator(): TrustupUserRelationContract
+    public function creator(): TrustupUserRelationContract
     {
         return $this->belongsToTrustupUser('creator_id');
     }
@@ -84,7 +73,7 @@ class Post extends Model implements TrustupUserRelatedModelContract
      */
     public function getContributors(): Collection
     {
-        return $this->getTrustupUsers('trustupContributors');
+        return $this->getExternalModels('contributors');
     }
 
     /**
@@ -94,7 +83,7 @@ class Post extends Model implements TrustupUserRelatedModelContract
      */
     public function getCreator(): ?UserContract
     {
-        return $this->getTrustupUsers('trustupCreator');
+        return $this->getExternalModels('creator');
     }
 }
 ```
@@ -107,9 +96,9 @@ If you wanna expose your model, here is an example resource based on previous se
 namespace App\Http\Resources;
 
 use Deegitalbe\LaravelTrustupIoAuthClient\Resources\TrustupUserResource;
-use Deegitalbe\LaravelTrustupIoAuthClient\Resources\TrustupUserRelatedResource;
+use Deegitalbe\LaravelTrustupIoExternalModelRelations\Resources\ExternalModelRelatedResource;
 
-class PostResource extends TrustupUserRelatedResource
+class PostResource extends ExternalModelRelatedResource
 {
     /**
      * Transform the resource into an array.
@@ -124,8 +113,8 @@ class PostResource extends TrustupUserRelatedResource
             'title' => $this->title,
             'text' => $this->text,
             'created_at' => $this->created_at,
-            'contributors' => TrustupUserResource::collection($this->whenTrustupUsersLoaded('trustupContributors')),
-            'creator' => new TrustupUserResource($this->whenTrustupUsersLoaded('trustupCreator'))
+            'contributors' => TrustupUserResource::collection($this->whenExternalRelationLoaded('trustupContributors')),
+            'creator' => new TrustupUserResource($this->whenExternalRelationLoaded('trustupCreator'))
         ];
     }
 }
@@ -328,61 +317,82 @@ interface TrustupUserContract
 interface TrustupUserRelatedModelContract
 {
     /**
-     * Getting user relation.
-     * 
-     * You can expect TrustupUserContract|null for non-multiple relation or Collection<int, TrustupUserContract> for multiple relation.
-     * 
-     * @param string $relation Relation name to get
-     * @return ?TrustupUserContract|Collection<int, TrustupUserContract>
-     */
-    public function getTrustupUsers(string $relationName): mixed;
-
-    /**
-     * Loading given user relations.
-     * @param string $relationNames relation names to load.
-     * @return static
-     */
-    public function loadTrustupUsers(...$relationNames): TrustupUserRelatedModelContract;
-
-    /**
      * Creating a new belongs to trustup user relation.
      * 
      * @param string $idProperty Model property containing related id.
      * @param string $userProperty Model property where related user should be stored.
-     * @return TrustupUserRelationContract
+     * @return ExternalModelRelationContract
      */
-    public function belongsToTrustupUser(string $idProperty, string $userProperty = null): TrustupUserRelationContract;
+    public function belongsToTrustupUser(string $idProperty, string $userProperty = null): ExternalModelRelationContract;
 
      /**
      * Creating a new has many trustup users relation.
      * 
      * @param string $idsProperty Model property containing related ids.
      * @param string $usersProperty Model property where related users should be stored.
-     * @return TrustupUserRelationContract
+     * @return ExternalModelRelationContract
      */
-    public function hasManyTrustupUsers(string $idsProperty, string $usersProperty = null): TrustupUserRelationContract;
+    public function hasManyTrustupUsers(string $idsProperty, string $usersProperty = null): ExternalModelRelationContract;
 
     /**
-     * Telling if trustup users relation is loaded.
+     * Getting external models relation based on given relation name.
+     * 
+     * You can expect ExternalModelContract|null for non-multiple relation or Collection<int, ExternalModelContract> for multiple relation.
+     * 
+     * @param string $relation Relation name to get
+     * @return ?ExternalModelContract|Collection<int, ExternalModelContract>
+     */
+    public function getExternalModels(string $relationName): mixed;
+
+    /**
+     * Loading external relations based on given relation names.
+     * 
+     * @param string $relationNames relation names to load.
+     * @return static
+     */
+    public function loadExternalRelations(...$relationNames): ExternalModelRelatedModelContract;
+
+    /**
+     * Creating a new belongs to external models relation.
+     * 
+     * @param ExternalModelRelationLoadingCallbackContract $callback Callback able to load related models
+     * @param string $idProperty Model property containing related id.
+     * @param string $externalModelProperty Model property where related user should be stored.
+     * @return ExternalModelRelationContract
+     */
+    public function belongsToExternalModel(ExternalModelRelationLoadingCallbackContract $callback, string $idProperty, string $externalModelProperty = null): ExternalModelRelationContract;
+
+     /**
+     * Creating a new has many external models relation.
+     * 
+     * @param ExternalModelRelationLoadingCallbackContract $callback Callback able to load related models
+     * @param string $idsProperty Model property containing external model ids.
+     * @param string $externalModelsProperty Model property where related users should be stored.
+     * @return ExternalModelRelationContract
+     */
+    public function hasManyExternalModels(ExternalModelRelationLoadingCallbackContract $callback, string $idsProperty, string $externalModelsProperty = null): ExternalModelRelationContract;
+
+    /**
+     * Telling if given external relation is loaded.
      * 
      * @param string $relationName Relation name to check.
      * @return bool
      */
-    public function trustupUsersRelationLoaded(string $relationName): bool;
+    public function externalRelationLoaded(string $relationName): bool;
 
     /**
-     * Getting trustup relations from given names.
+     * Getting external relations from given names.
      * 
      * @param array $relationNames Relation names to get
-     * @return Collection<int, TrustupUserRelationContract>
+     * @return Collection<int, ExternalModelRelationContract>
      */
-    public function getTrustupUserRelationCollection(array $relationNames): Collection;
+    public function getExternalRelationsCollection(array $relationNames): Collection;
 
     /**
      * Create a new Eloquent Collection instance.
      *
      * @param  array  $models
-     * @return TrustupUserRelatedCollectionContract
+     * @return ExternalModelRelatedCollectionContract
      */
     public function newCollection(array $models = []);
 }
