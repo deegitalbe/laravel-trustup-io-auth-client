@@ -4,9 +4,12 @@ namespace Deegitalbe\LaravelTrustupIoAuthClient\Models;
 use Illuminate\Support\Collection;
 use Deegitalbe\LaravelTrustupIoAuthClient\Enums\Role;
 use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models\TrustupUserContract;
+use Illuminate\Notifications\Notifiable;
 
 class TrustupUser implements TrustupUserContract
 {
+    use Notifiable;
+
     protected int $id;
     protected string $avatar;
     protected string $avatar_base64;
@@ -192,5 +195,10 @@ class TrustupUser implements TrustupUserContract
     public function getExternalRelationIdentifier(): string|int
     {
         return $this->getId();
+    }
+
+    public function routeNotificationForSlack()
+    {
+        return env('SLACK_API_URL') . '/chat.postMessage';
     }
 }
