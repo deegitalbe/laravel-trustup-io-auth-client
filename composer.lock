@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a316c5233c4caa6e141c005d9f4a1c2f",
+    "content-hash": "471d638ef0db62384f6288556dd18d1f",
     "packages": [
         {
             "name": "deegitalbe/laravel-trustup-io-external-model-relations",
-            "version": "v0.0.4",
+            "version": "v0.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/deegitalbe/laravel-trustup-io-external-model-relations.git",
-                "reference": "c3e6711120b923d595f7a172439af07a455ff68d"
+                "reference": "49c00a222d1ef2960f65bbde4f5f83182d7d2435"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/deegitalbe/laravel-trustup-io-external-model-relations/zipball/c3e6711120b923d595f7a172439af07a455ff68d",
-                "reference": "c3e6711120b923d595f7a172439af07a455ff68d",
+                "url": "https://api.github.com/repos/deegitalbe/laravel-trustup-io-external-model-relations/zipball/49c00a222d1ef2960f65bbde4f5f83182d7d2435",
+                "reference": "49c00a222d1ef2960f65bbde4f5f83182d7d2435",
                 "shasum": ""
             },
             "require": {
@@ -55,9 +55,9 @@
             "description": "Basic versioned php package.",
             "support": {
                 "issues": "https://github.com/deegitalbe/laravel-trustup-io-external-model-relations/issues",
-                "source": "https://github.com/deegitalbe/laravel-trustup-io-external-model-relations/tree/v0.0.4"
+                "source": "https://github.com/deegitalbe/laravel-trustup-io-external-model-relations/tree/v0.0.5"
             },
-            "time": "2022-12-12T22:19:32+00:00"
+            "time": "2022-12-15T16:07:13+00:00"
         },
         {
             "name": "deegitalbe/server-authorization",
