@@ -4,8 +4,9 @@ namespace Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models;
 use Illuminate\Support\Collection;
 use Deegitalbe\LaravelTrustupIoAuthClient\Enums\Role;
 use Deegitalbe\LaravelTrustupIoExternalModelRelations\Contracts\Models\ExternalModelContract;
+use Deegitalbe\LaravelTrustupIoSlackNotifications\Contracts\Slack\SlackNotifiableContract;
 
-interface TrustupUserContract extends ExternalModelContract
+interface TrustupUserContract extends ExternalModelContract, SlackNotifiableContract
 {
     /**
      * Getting user id.
