@@ -197,6 +197,13 @@ class TrustupUser implements TrustupUserContract
         return $this;
     }
 
+    /**
+     * Getting role based on value.
+     * 
+     * Not sure about reporting an error if not found 🧐
+     * 
+     * @return ?Role
+     */
     protected function getFormatedRole(string $rawRole): ?Role
     {
         if ($role = Role::tryFrom($rawRole)) return $role;
