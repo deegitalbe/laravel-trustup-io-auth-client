@@ -86,6 +86,13 @@ interface TrustupUserContract extends ExternalModelContract, SlackNotifiableCont
     public function getRoles(): Collection;
 
     /**
+     * Getting user raw roles (string directly returned by API)
+     * 
+     * @return Collection<int, string>
+     */
+    public function getRawRoles(): Collection;
+
+    /**
      * Telling if user is containing given role.
      * 
      * @param Role $role Role to check for

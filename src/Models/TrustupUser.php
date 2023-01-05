@@ -4,6 +4,7 @@ namespace Deegitalbe\LaravelTrustupIoAuthClient\Models;
 use Illuminate\Support\Collection;
 use Deegitalbe\LaravelTrustupIoAuthClient\Enums\Role;
 use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models\TrustupUserContract;
+use Deegitalbe\LaravelTrustupIoAuthClient\Exceptions\MissingNewRoleException;
 use Deegitalbe\LaravelTrustupIoSlackNotifications\Traits\Slack\SlackNotifiable;
 
 class TrustupUser implements TrustupUserContract
@@ -20,6 +21,7 @@ class TrustupUser implements TrustupUserContract
     protected string $locale;
     protected ?string $slack_id;
     protected Collection $roles;
+    protected Collection $rawRoles;
 
     /**
      * Getting user id.
@@ -178,6 +180,8 @@ class TrustupUser implements TrustupUserContract
      */
     public function fill(array $attributes): TrustupUserContract
     {
+        $roles = collect($attributes['roles']);
+
         $this->id = $attributes['id'];
         $this->avatar = $attributes['avatar'];
         $this->avatar_base64 = $attributes['avatar_base64'];
@@ -187,9 +191,23 @@ class TrustupUser implements TrustupUserContract
         $this->phone = $attributes['phone'];
         $this->locale = $attributes['locale'];
         $this->slack_id = $attributes['slack_id'];
-        $this->roles = collect($attributes['roles'])->map(fn (string $role) => Role::from($role));
+        $this->rawRoles = $roles;
+        $this->roles = $roles->map(fn (string $role) => $this->getFormatedRole($role))->filter();
 
         return $this;
+    }
+
+    protected function getFormatedRole(string $rawRole): ?Role
+    {
+        if ($role = Role::tryFrom($rawRole)) return $role;
+
+        // report((new MissingNewRoleException())->setRole($rawRole));
+        return null;
+    }
+
+    public function getRawRoles(): Collection
+    {
+        return $this->rawRoles;
     }
 
     public function getExternalRelationIdentifier(): string|int
