@@ -20,5 +20,5 @@ enum Role: string
     case ADMIN_PRO = "Admin Pro";
     case EMPLOYEE = "Employee";
     case HR = "HR";
-    case Notifier = "Notifier";
+    case NOTIFIER = "Notifier";
 }
