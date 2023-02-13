@@ -22,6 +22,12 @@ class TrustupUser implements TrustupUserContract
     protected ?string $slack_id;
     protected Collection $roles;
     protected Collection $rawRoles;
+    protected array $attributes;
+
+    public function getKey(): int
+    {
+        return $this->getId();
+    }
 
     /**
      * Getting user id.
@@ -193,6 +199,7 @@ class TrustupUser implements TrustupUserContract
         $this->slack_id = $attributes['slack_id'];
         $this->rawRoles = $roles;
         $this->roles = $roles->map(fn (string $role) => $this->getFormatedRole($role))->filter();
+        $this->attributes = $attributes;
 
         return $this;
     }
@@ -220,5 +227,10 @@ class TrustupUser implements TrustupUserContract
     public function getExternalRelationIdentifier(): string|int
     {
         return $this->getId();
+    }
+
+    public function getAttributes(): array
+    {
+        return $this->attributes;
     }
 }

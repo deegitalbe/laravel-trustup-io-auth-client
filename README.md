@@ -28,6 +28,7 @@ use Illuminate\Database\Eloquent\Casts\AsCollection;
 use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models\TrustupUserContract;
 use Deegitalbe\LaravelTrustupIoAuthClient\Traits\Models\IsTrustupUserRelatedModel;
 use Deegitalbe\LaravelTrustupIoAuthClient\Contracts\Models\TrustupUserRelatedModelContract;
+use Deegitalbe\LaravelTrustupIoExternalModelRelations\Contracts\Models\Relations\ExternalModelRelationContract;
 
 class Post extends Model implements TrustupUserRelatedModelContract
 {
@@ -49,9 +50,9 @@ class Post extends Model implements TrustupUserRelatedModelContract
     /**
      * Defining contributors relation.
      * 
-     * @return TrustupUserRelationContract
+     * @return ExternalRelation
      */
-    public function contributors(): TrustupUserRelationContract
+    public function contributors(): ExternalModelRelationContract
     {
         return $this->hasManyTrustupUsers('contributor_ids');
     }
@@ -59,9 +60,9 @@ class Post extends Model implements TrustupUserRelatedModelContract
     /**
      * Defining contributors relation.
      * 
-     * @return TrustupUserRelationContract
+     * @return ExternalRelation
      */
-    public function creator(): TrustupUserRelationContract
+    public function creator(): ExternalModelRelationContract
     {
         return $this->belongsToTrustupUser('creator_id');
     }
@@ -195,8 +196,15 @@ interface UserEndpointContract
 
 ### Trustup user model
 ```php
-interface TrustupUserContract
+interface TrustupUserContract extends ExternalModelContract, SlackNotifiableContract
 {
+    /**
+     * Getting user key.
+     * 
+     * @return int
+     */
+    public function getKey(): int;
+
     /**
      * Getting user id.
      * 
@@ -275,6 +283,13 @@ interface TrustupUserContract
     public function getRoles(): Collection;
 
     /**
+     * Getting user raw roles (string directly returned by API)
+     * 
+     * @return Collection<int, string>
+     */
+    public function getRawRoles(): Collection;
+
+    /**
      * Telling if user is containing given role.
      * 
      * @param Role $role Role to check for
@@ -297,6 +312,13 @@ interface TrustupUserContract
      * @return bool
      */
     public function hasRoles(Collection $roles): bool;
+
+    /**
+     * Getting all attributes of user.
+     * 
+     * @return array
+     */
+    public function getAttributes(): array;
 
     /**
      * Filling up model attributes.

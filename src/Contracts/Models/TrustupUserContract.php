@@ -9,6 +9,13 @@ use Deegitalbe\LaravelTrustupIoSlackNotifications\Contracts\Slack\SlackNotifiabl
 interface TrustupUserContract extends ExternalModelContract, SlackNotifiableContract
 {
     /**
+     * Getting user key.
+     * 
+     * @return int
+     */
+    public function getKey(): int;
+
+    /**
      * Getting user id.
      * 
      * @return int
@@ -115,6 +122,13 @@ interface TrustupUserContract extends ExternalModelContract, SlackNotifiableCont
      * @return bool
      */
     public function hasRoles(Collection $roles): bool;
+
+    /**
+     * Getting all attributes of user.
+     * 
+     * @return array
+     */
+    public function getAttributes(): array;
 
     /**
      * Filling up model attributes.
