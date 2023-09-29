@@ -4,6 +4,7 @@ namespace Deegitalbe\LaravelTrustupIoAuthClient\Tests;
 use Deegitalbe\LaravelTrustupIoAuthClient\Package;
 use Henrotaym\LaravelPackageVersioning\Testing\VersionablePackageTestCase;
 use Deegitalbe\LaravelTrustupIoAuthClient\Providers\LaravelTrustupIoAuthClientServiceProvider;
+use Deegitalbe\ServerAuthorization\Providers\ServerAuthorizationServiceProvider;
 use Henrotaym\LaravelApiClient\Providers\ClientServiceProvider;
 
 class TestCase extends VersionablePackageTestCase
@@ -17,6 +18,7 @@ class TestCase extends VersionablePackageTestCase
     {
         return [
             ClientServiceProvider::class,
+            ServerAuthorizationServiceProvider::class,
             LaravelTrustupIoAuthClientServiceProvider::class,
         ];
     }
