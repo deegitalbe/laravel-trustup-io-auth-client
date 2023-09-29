@@ -15,7 +15,6 @@ class AuthCredential extends AuthorizedServerCredential
     {
         parent::prepare($request);
         $apiUrl = "{$this->getCorrectBaseUrl()}/api";
-        dd($apiUrl);
 
         $request->setBaseUrl($apiUrl);
     }
