@@ -1,4 +1,5 @@
 <?php
+
 namespace Deegitalbe\LaravelTrustupIoAuthClient\Enums;
 
 enum Role: string
@@ -21,4 +22,5 @@ enum Role: string
     case EMPLOYEE = "Employee";
     case HR = "HR";
     case NOTIFIER = "Notifier";
+    case OLD_SALESMAN = "Old Salesman";
 }
