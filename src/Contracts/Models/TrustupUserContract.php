@@ -39,9 +39,9 @@ interface TrustupUserContract extends ExternalModelContract, SlackNotifiableCont
     /**
      * Getting first name.
      * 
-     * @return string
+     * @return ?string
      */
-    public function getFirstName(): string;
+    public function getFirstName(): ?string;
 
     /**
      * Getting last name.

@@ -14,7 +14,7 @@ class TrustupUser implements TrustupUserContract
     protected int $id;
     protected string $avatar;
     protected string $avatar_base64;
-    protected string $first_name;
+    protected ?string $first_name;
     protected string $last_name;
     protected string $email;
     protected ?string $phone;
@@ -62,9 +62,9 @@ class TrustupUser implements TrustupUserContract
     /**
      * Getting first name.
      * 
-     * @return string
+     * @return ?string
      */
-    public function getFirstName(): string
+    public function getFirstName(): ?string
     {
         return $this->first_name;
     }
