@@ -63,7 +63,7 @@ class UserEndpoint implements UserEndpointContract
      * Getting trustup users matching given ids.
      * 
      * @param Collection<int, Role>
-     * @return Collection<int, int>
+     * @return Collection<int, TrustupUserContract>
      */
     public function byIds(Collection $ids): Collection
     {

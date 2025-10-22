@@ -18,6 +18,7 @@ class TrustupUser implements TrustupUserContract
     protected string $last_name;
     protected string $email;
     protected ?string $phone;
+    protected ?string $international_phone;
     protected string $locale;
     protected ?string $slack_id;
     protected Collection $roles;
@@ -97,6 +98,16 @@ class TrustupUser implements TrustupUserContract
     public function getPhoneNumber(): ?string
     {
         return $this->phone;
+    }
+
+    /**
+     * Getting international phone number (E164)
+     * 
+     * @return string
+     */
+    public function getInternationalPhoneNumber(): ?string
+    {
+        return $this->international_phone;
     }
 
     /**
@@ -195,6 +206,7 @@ class TrustupUser implements TrustupUserContract
         $this->last_name = $attributes['last_name'];
         $this->email = $attributes['email'];
         $this->phone = $attributes['phone'];
+        $this->international_phone = $attributes['international_phone'];
         $this->locale = $attributes['locale'];
         $this->slack_id = $attributes['slack_id'];
         $this->rawRoles = $roles;

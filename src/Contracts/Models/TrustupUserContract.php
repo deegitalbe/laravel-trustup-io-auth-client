@@ -65,6 +65,13 @@ interface TrustupUserContract extends ExternalModelContract, SlackNotifiableCont
     public function getPhoneNumber(): ?string;
 
     /**
+     * Getting international phone number (E164).
+     * 
+     * @return string
+     */
+    public function getInternationalPhoneNumber(): ?string;
+
+    /**
      * Getting user locale.
      * 
      * @return string
