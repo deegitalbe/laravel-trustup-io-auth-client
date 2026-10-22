@@ -13,7 +13,7 @@ class TrustupUser implements TrustupUserContract
 
     protected int $id;
     protected string $avatar;
-    protected string $avatar_base64;
+    protected ?string $avatar_base64 = null;
     protected ?string $first_name;
     protected string $last_name;
     protected string $email;
@@ -53,9 +53,9 @@ class TrustupUser implements TrustupUserContract
     /**
      * Getting avatar as base64.
      * 
-     * @return string
+     * @return ?string
      */
-    public function getBase64Avatar(): string
+    public function getBase64Avatar(): ?string
     {
         return $this->avatar_base64;
     }
@@ -201,7 +201,7 @@ class TrustupUser implements TrustupUserContract
 
         $this->id = $attributes['id'];
         $this->avatar = $attributes['avatar'];
-        $this->avatar_base64 = $attributes['avatar_base64'];
+        $this->avatar_base64 = $attributes['avatar_base64'] ?? null;
         $this->first_name = $attributes['first_name'];
         $this->last_name = $attributes['last_name'];
         $this->email = $attributes['email'];
