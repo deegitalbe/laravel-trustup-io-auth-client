@@ -32,9 +32,9 @@ interface TrustupUserContract extends ExternalModelContract, SlackNotifiableCont
     /**
      * Getting avatar as base64.
      * 
-     * @return string
+     * @return ?string
      */
-    public function getBase64Avatar(): string;
+    public function getBase64Avatar(): ?string;
 
     /**
      * Getting first name.
